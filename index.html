@@ -1,0 +1,347 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Newsletter naming demo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        body {
+            font-family: "Inter", sans-serif;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="row py-4">
+            <div class="col">
+                <div class="pb-4 text-break"><h4><span id="fnameoutput"></span></h4></div>
+                
+                <div class="row">
+                    <div class="col-6 col-md-4">
+                        <p><strong>Channel Type:</strong></p>
+                        <div id="channelTypeList" class="pb-3"></div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <p><strong>Therapy area:</strong></p>
+                        <div id="therapyAreaList" class="pb-3"></div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <p><strong>Product:</strong></p>
+                        <div id="productList" class="pb-3"></div>
+                    </div>
+                </div>
+
+                <p><strong>Speciality:</strong></p>
+                <div class="pb-3" id="specialties">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="speciality-1" value="Doc" name="speciality-checkbox">
+                        <label class="form-check-label" for="speciality-1">Doctor</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="speciality-2" value="Res" name="speciality-checkbox">
+                        <label class="form-check-label" for="speciality-2">Resident</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="speciality-3" value="Nur" name="speciality-checkbox">
+                        <label class="form-check-label" for="speciality-3">Nurse</label>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="fname" class="form-label">Name of the campaign (in English)</label>
+                    <input type="text" class="form-control" id="fname" aria-describedby="emailHelp">
+                    <div id="emailHelp" class="form-text">For example: InvitationToSeminar</div>
+                </div>
+
+                <p><strong>Country:</strong></p>
+                <div id="countryCodes" class="pb-3">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="country-radio" id="country-1" value="EE">
+                        <label class="form-check-label" for="country-1">Estonia</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="country-radio" id="country-2" value="LT">
+                        <label class="form-check-label" for="country-2">Lithuania</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="country-radio" id="country-3" value="LV">
+                        <label class="form-check-label" for="country-3">Latvia</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="country-radio" id="country-4" value="UA">
+                        <label class="form-check-label" for="country-4">Ukraine</label>
+                    </div>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="CTA" id="cta">
+                    <label class="form-check-label" for="cta">
+                        Has call-to-action (CTA)
+                    </label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="reminders" onclick="showMessage()">
+                    <label class="form-check-label" for="reminders">
+                        Has reminders
+                    </label><br>
+                    <span id="has-reminder-message" class="d-none">
+                        <small>If your campaign has reminders then please update the wave number accordingly.</small>
+                    </span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+
+<script>
+    
+    function showMessage() {
+
+        if(document.getElementById('reminders').checked) {
+            document.getElementById('has-reminder-message').classList.remove('d-none');
+        } else {
+            document.getElementById('has-reminder-message').classList.add('d-none');   
+        }
+    }
+
+    let channelType = "{channelType}";
+    let therapyArea = "{therapyArea}";
+    let product = "{product}";
+    let speciality = "{speciality}";
+    let text = "{campaignName}";
+    let countryCode = "{countryCode}";
+    let reminders = "wave1";
+    let callToAction = "";
+
+    updateCampaignName();
+
+    // Iterate product list
+
+    let productListDiv = document.getElementById("productList");
+    let products = {
+        "LQV" : "Leqvio",
+        "INCL" : "Inclisiran",
+        "ENTR" : "Entresto",
+        "SACV" : "Sacubitril/Valsartan",
+        "JAKV" : "Jakavi",
+        "RUXO" : "Ruxolitinib",
+        "KISQ" : "Kisqali",
+        "RIBO" : "Ribociclib",
+        "SCEM" : "Scemblix",
+        "ASCI" : "Asciminib",
+        "PLUV" : "Pluvicto",
+        "LUTEV" : "Lutetium (177Lu) Vipivotide Tetraxetan",
+        "COSPSO" : "Cosentyx PSO",
+        "COSPSA" : "Cosentyx PSA",
+        "COSAS" : "Cosentyx AS",
+        "SECU" : "Secukinumab",
+        "KESI" : "Kesimpta",
+        "OFAT" : "Ofatumumab",
+        "TAFMEK" : "Tafinlar+Mekinist",
+        "DABT" : "Dabrafenib/Trametinib",
+        "AIMO" : "Aimovig",
+        "EREN" : "Erenumab",
+        "MAYZ" : "Mayzent",
+        "SIPO" : "Siponimod",
+        "REVO" : "Revolade",
+        "ELTR" : "Eltrombopag",
+        "RYDA" : "Rydapt",
+        "MIDO" : "Midostaurin",
+        "PELA" : "Pelacarsen",
+        "LUTA" : "Lutathera",
+        "LUTEO" : "Lutetium (177Lu) Oxodotreotide",
+        "REMI" : "Remibrutinib",
+        "CORP" : "Corporate (if Non Product)",
+    };
+    let productListHtml = "";
+
+    for (const [key, value] of Object.entries(products)) {
+        let id = uuid();
+        productListHtml = productListHtml + `<div class="form-check">
+            <input class="form-check-input" type="radio" name="product-radio" id="product-${id}" value="${key}">
+            <label class="form-check-label" for="product-${id}">${value}</label>
+            </div>`;
+    };
+
+    productListDiv.innerHTML = productListHtml;
+    productListDiv.addEventListener('click', updateProductName);
+
+    function updateProductName() {
+        document.getElementsByName('product-radio').forEach((e) => {
+            if (e.checked) {
+                product = e.value;
+            }
+        });
+
+        updateCampaignName();
+    }
+
+    // Iterate channel type list
+
+    let channelTypeDiv = document.getElementById("channelTypeList");
+    let channelTypes = {
+        "EMC" : "Email Mass Commercial",
+        "EMM" : "Email Mass Medical",
+        "EMCO" : "Email Mass Corporate",
+        "RTE" : "Rep Triggered Email",
+        "MTE" : "Medical Triggered Email",
+        "SMS" : "SMS"
+    };
+    let channelTypeListHtml = "";
+
+    for (const [key, value] of Object.entries(channelTypes)) {
+        let id = uuid();
+        channelTypeListHtml += `<div class="form-check">
+            <input class="form-check-input" type="radio" name="channel-type-radio" id="product-${id}" value="${key}">
+            <label class="form-check-label" for="product-${id}">${value}</label>
+            </div>`;
+    };
+    channelTypeDiv.innerHTML = channelTypeListHtml;
+    channelTypeDiv.addEventListener('click', updateChannelType);
+
+    function updateChannelType() {
+        document.getElementsByName('channel-type-radio').forEach((e) => {
+            if (e.checked) {
+                channelType = e.value;
+            }
+        });
+
+    updateCampaignName();
+}
+
+    // Iterate therapy area list
+
+    let therapyAreaListDiv = document.getElementById("therapyAreaList");
+    let therapyAreas = {
+        "ONCO" : "Oncology",
+        "CRM" : "Cardiovascular Renal Metabolic",
+        "IMMU" : "Immunology",
+        "NS" : "Neuroscience",
+        "NP" : "Non Product",
+    };
+    let therapyAreaListHtml = "";
+
+    for (const [key, value] of Object.entries(therapyAreas)) {
+        let id = uuid();
+        therapyAreaListHtml = therapyAreaListHtml + `<div class="form-check">
+            <input class="form-check-input" type="radio" name="therapy-area-radio" id="therapy-area-${id}" value="${key}">
+            <label class="form-check-label" for="therapy-area-${id}">${value}</label>
+            </div>`;
+    };
+
+    therapyAreaListDiv.innerHTML = therapyAreaListHtml;
+    therapyAreaListDiv.addEventListener('click', updateTherapyAreaName);
+
+    function updateTherapyAreaName() {
+        document.getElementsByName('therapy-area-radio').forEach((e) => {
+            if (e.checked) {
+                therapyArea = e.value;
+            }
+        });
+
+        updateCampaignName();
+    }
+
+    const fname = document.getElementById('fname');
+    fname.addEventListener("input", textInput);
+
+    let output = document.getElementById('fnameoutput');
+
+    // Specialties
+
+    let specialties = document.getElementById("specialties");
+    specialties.addEventListener('click', updateSpecialties);
+
+    function updateSpecialties() {
+        speciality = "";
+        document.getElementsByName('speciality-checkbox').forEach((s) => {
+            if (s.checked) {
+                speciality = speciality + s.value;
+            }
+        })
+        updateCampaignName();
+    }
+
+    // Country
+
+    let countryCodes = document.getElementById("countryCodes");
+    countryCodes.addEventListener('click', updateCountryCode);
+
+    function updateCountryCode() {
+
+        document.getElementsByName('country-radio').forEach((s) => {
+            if (s.checked) {
+                countryCode = s.value;
+            }
+        })
+        updateCampaignName();
+    }
+
+
+    let ctaCheckBox = document.getElementById('cta');
+    ctaCheckBox.addEventListener('change', updateCtaStatus);
+
+    function updateCtaStatus() {
+        if (ctaCheckBox.checked) {
+            callToAction = "CTA";
+        } else {
+            callToAction = "";
+        }
+
+        updateCampaignName();
+    }
+
+    //Reminders
+
+    let remindersCheckBox = document.getElementById('reminders');
+    remindersCheckBox.addEventListener('change', updateRemindersStatus);
+
+    function updateRemindersStatus() {
+        if (remindersCheckBox.checked) {
+            reminders = "wave1";
+        } else {
+            reminders = "wave1";
+        }
+
+        updateCampaignName();
+    }
+
+    function totalClick(click) {
+
+        // const totalClicks = document.getElementById('totalClicks').innerText;
+
+        test = test + click;
+        document.getElementById('totalClicks').innerText = test;
+    }
+
+    function textInput() {
+        text = document.getElementById('fname').value;
+        updateCampaignName();
+        console.log();
+    }
+
+    function updateCampaignName() {
+        let elements = [channelType, therapyArea, product, speciality, text, countryCode + reminders + callToAction]
+        document.getElementById('fnameoutput').innerText = elements.join("_");
+    }
+
+    // Helpers
+    
+    function uuid() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
+    .replace(/[xy]/g, function (c) {
+        const r = Math.random() * 16 | 0, 
+            v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+}
+
+</script>
+</html>
