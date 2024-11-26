@@ -59,9 +59,9 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="fname" class="form-label">Name of the campaign (in English)</label>
-                    <input type="text" class="form-control" id="fname" aria-describedby="emailHelp">
-                    <div id="emailHelp" class="form-text">For example: InvitationToSeminar</div>
+                    <label for="campaignName" class="form-label">Name of the campaign (in English)</label>
+                    <input type="text" class="form-control" id="campaignName" aria-describedby="emailHelp">
+                    <div id="emailHelp" class="form-text">For example: InvitationToSeminar, no spaces, no special characters, limit to 35 characters.</div>
                 </div>
 
                 <p><strong>Country:</strong></p>
@@ -256,10 +256,8 @@
         updateCampaignName();
     }
 
-    const fname = document.getElementById('fname');
-    fname.addEventListener("input", textInput);
-
-    let output = document.getElementById('fnameoutput');
+    const campaignNameInput = document.getElementById('campaignName');
+    campaignNameInput.addEventListener("input", textInput);
 
     // Specialties
 
@@ -320,30 +318,19 @@
         updateCampaignName();
     }
 
-    function totalClick(click) {
-
-        // const totalClicks = document.getElementById('totalClicks').innerText;
-
-        test = test + click;
-        document.getElementById('totalClicks').innerText = test;
-    }
-
     function textInput() {
-        text = document.getElementById('fname').value;
+        text = document.getElementById('campaignName').value;
         updateCampaignName();
-        console.log();
     }
 
     function updateCampaignName() {
-        let elements = [channelType, therapyArea, product, speciality, text, countryCode + reminders + callToAction]
         
         let titleCampaign = [channelType, therapyArea, product, speciality, text, countryCode]
         document.getElementById('title-campaign').innerText = titleCampaign.join("_");
 
 
-
         let titleEmail = [channelType, therapyArea, product, speciality, text, countryCode + reminders + callToAction]
-        document.getElementById('title-email').innerText = elements.join("_");
+        document.getElementById('title-email').innerText = titleEmail.join("_");
     }
 
     // Helpers
