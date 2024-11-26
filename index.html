@@ -18,7 +18,14 @@
     <div class="container">
         <div class="row py-4">
             <div class="col">
-                <div class="pb-4 text-break"><h4><span id="fnameoutput"></span></h4></div>
+                <div class="pb-4 text-break">
+                    <span class="badge text-bg-primary">Email title</span>
+                    <h4><span id="title-email"></span></h4>
+                </div>
+                <div class="pb-4 text-break">
+                    <span class="badge text-bg-primary">Campaign title</span>
+                    <h4><span id="title-campaign"></span></h4>
+                </div>
                 
                 <div class="row">
                     <div class="col-6 col-md-4">
@@ -329,7 +336,14 @@
 
     function updateCampaignName() {
         let elements = [channelType, therapyArea, product, speciality, text, countryCode + reminders + callToAction]
-        document.getElementById('fnameoutput').innerText = elements.join("_");
+        
+        let titleCampaign = [channelType, therapyArea, product, speciality, text, countryCode]
+        document.getElementById('title-campaign').innerText = titleCampaign.join("_");
+
+
+
+        let titleEmail = [channelType, therapyArea, product, speciality, text, countryCode + reminders + callToAction]
+        document.getElementById('title-email').innerText = elements.join("_");
     }
 
     // Helpers
