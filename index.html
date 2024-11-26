@@ -26,46 +26,30 @@
                     <span class="badge text-bg-primary">Campaign title</span>
                     <h4><span id="title-campaign"></span></h4>
                 </div>
+
+                <div class="mb-4">
+                    <label for="campaignName" class="form-label fw-bold">Name of the campaign (in English)</label>
+                    <input type="text" class="form-control" id="campaignName" aria-describedby="emailHelp">
+                    <div id="emailHelp" class="form-text">For example: InvitationToSeminar, no spaces, no special characters, limit to 35 characters.</div>
+                </div>
                 
                 <div class="row">
                     <div class="col-6 col-md-4">
                         <p><strong>Channel Type:</strong></p>
                         <div id="channelTypeList" class="pb-3"></div>
                     </div>
+                    <div class="col-6 col-md-3">
+                        <p><strong>Therapy area:</strong></p>
+                        <div id="therapyAreaList" class="pb-3"></div>
+                    </div>
                     <div class="col-6 col-md-4">
                         <p><strong>Topic:</strong></p>
                         <div id="topicsList" class="pb-3"></div>
                     </div>
                     <div class="col-6 col-md-3">
-                        <p><strong>Therapy area:</strong></p>
-                        <div id="therapyAreaList" class="pb-3"></div>
-                    </div>
-                    <div class="col-6 col-md-3">
                         <p><strong>Product:</strong></p>
                         <div id="productList" class="pb-3"></div>
                     </div>
-                </div>
-
-                <p><strong>Speciality:</strong></p>
-                <div class="pb-3" id="specialties">
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="speciality-1" value="Doc" name="speciality-checkbox">
-                        <label class="form-check-label" for="speciality-1">Doctor</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="speciality-2" value="Res" name="speciality-checkbox">
-                        <label class="form-check-label" for="speciality-2">Resident</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="speciality-3" value="Nur" name="speciality-checkbox">
-                        <label class="form-check-label" for="speciality-3">Nurse</label>
-                    </div>
-                </div>
-
-                <div class="mb-3">
-                    <label for="campaignName" class="form-label">Name of the campaign (in English)</label>
-                    <input type="text" class="form-control" id="campaignName" aria-describedby="emailHelp">
-                    <div id="emailHelp" class="form-text">For example: InvitationToSeminar, no spaces, no special characters, limit to 35 characters.</div>
                 </div>
 
                 <p><strong>Country:</strong></p>
@@ -125,7 +109,7 @@
     let channelType = "{channelType}";
     let therapyArea = "{therapyArea}";
     let product = "{product}";
-    let speciality = "{speciality}";
+    let topic = "{topic}";
     let text = "{campaignName}";
     let countryCode = "{countryCode}";
     let reminders = "wave1";
@@ -243,15 +227,24 @@
     topics.forEach( topic => {
         let id = uuid();
         topicsListHtml += `<div class="form-check">
-            <input class="form-check-input" type="radio" name="therapy-area-radio" id="therapy-area-${id}" value="${topic.abbreviation}">
-            <label class="form-check-label" for="therapy-area-${id}">${topic.title}<br>
+            <input class="form-check-input" type="radio" name="topic-radio" id="topic-${id}" value="${topic.abbreviation}">
+            <label class="form-check-label" for="topic-${id}"><span class="fw-medium">${topic.title}</span><br>
                 <small class="text-muted">${topic.comment}</small></label>
-            
             </div>`;
     });
     topicsListDiv.innerHTML = topicsListHtml;
-    
+    topicsListDiv.addEventListener('click', updateTopic);
 
+    function updateTopic() {
+        document.getElementsByName('topic-radio').forEach((e) => {
+            if (e.checked) {
+                topic = e.value;
+            }
+        });
+
+        updateCampaignName();
+    }
+    
     // Iterate therapy area list
 
     let therapyAreaListDiv = document.getElementById("therapyAreaList");
@@ -287,21 +280,6 @@
 
     const campaignNameInput = document.getElementById('campaignName');
     campaignNameInput.addEventListener("input", textInput);
-
-    // Specialties
-
-    let specialties = document.getElementById("specialties");
-    specialties.addEventListener('click', updateSpecialties);
-
-    function updateSpecialties() {
-        speciality = "";
-        document.getElementsByName('speciality-checkbox').forEach((s) => {
-            if (s.checked) {
-                speciality = speciality + s.value;
-            }
-        })
-        updateCampaignName();
-    }
 
     // Country
 
@@ -354,11 +332,13 @@
 
     function updateCampaignName() {
         
-        let titleCampaign = [channelType, therapyArea, product, speciality, text, countryCode]
+        let campaignNameTrim = text.replaceAll(" ", "");
+
+        let titleCampaign = [channelType, therapyArea, product, topic, campaignNameTrim, countryCode]
         document.getElementById('title-campaign').innerText = titleCampaign.join("_");
 
 
-        let titleEmail = [channelType, therapyArea, product, speciality, text, countryCode + reminders + callToAction]
+        let titleEmail = [channelType, therapyArea, product, topic, campaignNameTrim, countryCode + reminders + callToAction]
         document.getElementById('title-email').innerText = titleEmail.join("_");
     }
 
