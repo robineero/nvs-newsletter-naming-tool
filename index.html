@@ -32,6 +32,10 @@
                         <p><strong>Channel Type:</strong></p>
                         <div id="channelTypeList" class="pb-3"></div>
                     </div>
+                    <div class="col-6 col-md-4">
+                        <p><strong>Topic:</strong></p>
+                        <div id="topicsList" class="pb-3"></div>
+                    </div>
                     <div class="col-6 col-md-3">
                         <p><strong>Therapy area:</strong></p>
                         <div id="therapyAreaList" class="pb-3"></div>
@@ -201,6 +205,7 @@
         "MTE" : "Medical Triggered Email",
         "SMS" : "SMS"
     };
+
     let channelTypeListHtml = "";
 
     for (const [key, value] of Object.entries(channelTypes)) {
@@ -219,9 +224,33 @@
                 channelType = e.value;
             }
         });
+        
+        updateCampaignName();
+    }
 
-    updateCampaignName();
-}
+    // Iterate topic list
+
+    let topicsListDiv = document.getElementById("topicsList");
+    let topicsListHtml = "";
+    let topics = [
+        {title : "Disease Awareness", abbreviation : "Disease", comment : "Communications focused on adherence, patient support, quality of life, symptoms, and other key aspects of raising awareness about diseases and their management."},
+        {title : "Scientific Communications and Education", abbreviation : "Scientific", comment : "Updates on scientific developments, including clinical cases, real-world evidence, treatment guidelines, congress highlights, and educational resources to support HCP professional growth."},
+        {title : "Service Communications", abbreviation : "Service", comment : "Emails addressing operational and service-oriented topics, such as patient material ordering, rep requests, Voice of Customer (VOC) feedback, and related support services."},
+        {title : "Events", abbreviation : "Event", comment : "All communications related to events, including pre-event invitations, reminders, post-event thank-you emails, feedback surveys, and highlights."},
+        {title : "Product Information", abbreviation : "Product", comment : "Product-specific updates and information, covering safety and tolerability profiles, efficacy, differentiation, dosing, administration, ease of use, and mode of action to support clinical decision-making."},
+        {title : "General Communications", abbreviation : "General", comment : "Non-specific but meaningful company-related messages, such as holiday greetings, seasonal updates, and broader corporate announcements."},
+    ]
+    topics.forEach( topic => {
+        let id = uuid();
+        topicsListHtml += `<div class="form-check">
+            <input class="form-check-input" type="radio" name="therapy-area-radio" id="therapy-area-${id}" value="${topic.abbreviation}">
+            <label class="form-check-label" for="therapy-area-${id}">${topic.title}<br>
+                <small class="text-muted">${topic.comment}</small></label>
+            
+            </div>`;
+    });
+    topicsListDiv.innerHTML = topicsListHtml;
+    
 
     // Iterate therapy area list
 
