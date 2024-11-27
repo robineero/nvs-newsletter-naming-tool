@@ -133,7 +133,7 @@
     let topic = "{topic}";
     let text = "{campaignName}";
     let countryCode = "{countryCode}";
-    let reminders = "wave1";
+    let reminders = "Wave1";
     let callToAction = "";
 
     updateCampaignName();
@@ -323,7 +323,7 @@
 
     function updateCtaStatus() {
         if (ctaCheckBox.checked) {
-            callToAction = "CTA";
+            callToAction = "_CTA";
         } else {
             callToAction = "";
         }
@@ -338,9 +338,9 @@
 
     function updateRemindersStatus() {
         if (remindersCheckBox.checked) {
-            reminders = "wave1";
+            reminders = reminders;
         } else {
-            reminders = "wave1";
+            reminders = reminders;
         }
 
         updateCampaignName();
@@ -359,7 +359,7 @@
         document.getElementById('title-campaign').innerText = titleCampaign.join("_");
 
 
-        let titleEmail = [channelType, therapyArea, product, topic, campaignNameTrim, countryCode + reminders + callToAction]
+        let titleEmail = [channelType, therapyArea, product, topic, campaignNameTrim, countryCode, reminders + callToAction]
         document.getElementById('title-email').innerText = titleEmail.join("_");
     }
 
